@@ -18,17 +18,13 @@ export const Question = ({ id, questionText }) => {
         <div className="question" id={id}>
 
             <nav>
-                <form>
-                    <a> {id} </a>
-                    <a> {questionText} </a>
-                    <Link className="question-btn" to={`/${id}`} > Перейти к вопросу </Link>
-                    <a className="question-btn" > Редактировать </a>
-                    <form>
-                        <button className="question-btn" type="button" onClick={() => deleteClick(id)}
-                        >Удалить
-                        </button>
-                    </form>
-                </form>
+                <a> {id} </a>
+                <a> {questionText} </a>
+                <Link className="question-btn" to={`/${id}`} > Перейти к вопросу </Link>
+                <a className="question-btn" > Редактировать </a>
+                <button className="question-btn" type="button" onClick={() => deleteClick(id)}
+                >Удалить
+                </button>
             </nav>
         </div>
     )
