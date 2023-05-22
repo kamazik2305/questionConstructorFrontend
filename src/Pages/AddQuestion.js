@@ -10,13 +10,18 @@ export const AddQuestion = () => {
     const [questionTypes, setQuestionTypes] = React.useState([])
 
 
-    const [answerVersions, setAnswerVersions] = React.useState(
+    const [falseAnswers, setFalseAnswers] = React.useState(
+        Array.from({ length: 3 }, () => '')
+    )
+
+    const [trueAnswers, setTrueAnswers] = React.useState(
         Array.from({ length: 1 }, () => '')
     )
 
-
+    
     function alertClick() {
-        const question = { questionText: questionText, idQuestionType, answerVersions }
+        const answers = [...falseAnswers, ...trueAnswers]
+        const question = { questionText: questionText, idQuestionType, answers }
 
         console.log(JSON.stringify(question))
     }
@@ -30,26 +35,53 @@ export const AddQuestion = () => {
             )
     }, [])
 
-    const handleInputChange = (event, index) => {
+    const handleFalseInputChange = (event, index) => {
         const value = event.target.value
-        const newArray = [...answerVersions]
+        const newArray = [...falseAnswers]
 
-        const answerVersion = { answerText: value }
+        const answerVersion = { answerText: value, verity: false }
         newArray[index] = answerVersion
-        setAnswerVersions(newArray)
-
+        setFalseAnswers(newArray)
     }
 
-    const renderAnswerVersions = () => {
+    const handleTrueInputChange = (event, index) => {
+        const value = event.target.value
+        const newArray = [...trueAnswers]
+
+        const answerVersion = { answerText: value, verity: true }
+        newArray[index] = answerVersion
+        setTrueAnswers(newArray)
+    }
+
+
+
+    const renderFalseAnswers = () => {
         const answerInputs = []
-        for (let i = 0; i < answerVersions.length; i++) {
+        for (let i = 0; i < falseAnswers.length; i++) {
             answerInputs.push(
                 <div>
                     <input
                         placeholder="Введите ответ"
                         key={`answer #${i}`}
                         type="text"
-                        onChange={(event) => handleInputChange(event, i)}
+                        onChange={(event) => handleFalseInputChange(event, i)}
+                    />
+                </div>
+            )
+        }
+        return answerInputs;
+    }
+
+    const renderTrueAnswers = () => {
+        const answerInputs = []
+        for (let i = 0; i < trueAnswers.length; i++) {
+            answerInputs.push(
+                <div>
+                    <input
+                        placeholder="Введите ответ"
+                        key={`answer #${i}`}
+                        type="text"
+                        onChange={(event) => handleTrueInputChange(event, i)}
                     />
                 </div>
             )
@@ -59,6 +91,7 @@ export const AddQuestion = () => {
 
     const addQuestionClick = (e) => {
         e.preventDefault()
+        const answerVersions = [...falseAnswers, ...trueAnswers]
         const question = { questionText: questionText, idQuestionType, answerVersions }
         fetch(`http://localhost:8090/questions/add`, {
             method: "POST",
@@ -75,7 +108,7 @@ export const AddQuestion = () => {
     return (
         <div>
             <form>
-                <input type="text" name="testName" placeholder="Введите назавание теста" autoComplete="off"
+                <input type="text" placeholder="Введите назавание вопроса" autoComplete="off"
                     value={questionText} onChange={(e) => { setQuestionText(e.target.value) }} />
                 <button type="button" onClick={alertClick}>log</button>
 
@@ -86,8 +119,10 @@ export const AddQuestion = () => {
                         <option key={qt.id} value={qt.id}> {qt.typeName} </option>
                     ))}
                 </select>
-
-                {renderAnswerVersions()}
+                <p>Неверные ответы</p>
+                {renderFalseAnswers()}
+                <p>Верные ответы</p>
+                {renderTrueAnswers()}
                 <button type="submit" onClick={(e) => addQuestionClick(e)}>Добавить вопрос</button>
             </form>
         </div>

@@ -22,7 +22,6 @@ export const FullQuestion = () => {
 
     return(
         <div>
-            
                 <div>
                     <button onClick={printClick} > printClick </button>
                     <p> {question.id} {question.questionText} </p>

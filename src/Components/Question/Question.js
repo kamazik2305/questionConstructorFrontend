@@ -10,8 +10,8 @@ export const Question = ({ id, questionText }) => {
             .then(() => {
                 console.log("Вопрос удалён")
             })
-        //  let question = document.getElementById(id)
-        //      question.parentNode.removeChild(question)
+         let question = document.getElementById(id)
+             question.parentNode.removeChild(question)
     }
 
     return (
