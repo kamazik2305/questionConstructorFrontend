@@ -5,18 +5,17 @@ import { Link } from "react-router-dom"
 export const Homepage = () =>{
 
     const [questions, setQuestions] = React.useState([])
-    // const [idQuestion, setIdQuestion] = React.useState('')
-    // const [questionText, setQuestionText] = React.useState('')
 
     React.useEffect( () =>{
         fetch("http://localhost:8090/questions", {method: "GET"})
         .then(res => res.json())
         .then((result) => {
             setQuestions(result)
-            
         })
         
     }, [])
+
+    
 
 
     return(
@@ -24,7 +23,8 @@ export const Homepage = () =>{
 
             <h1>Список вопросов</h1>
             {questions.map(question => (
-                <Question  key={question.id} id={question.id} questionText={question.questionText}  />
+                <Question  key={question.id} id={question.id} questionText={question.questionText} 
+                 questions={questions} setQuestions={setQuestions} />
             ))
             }
             <Link to="add"> Добавить вопрос </Link>

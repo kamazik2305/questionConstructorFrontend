@@ -3,16 +3,18 @@ import { Link } from "react-router-dom"
 import "./QuestionStyle.css"
 
 
-export const Question = ({ id, questionText }) => {
+export const Question = ({ id, questionText, questions, setQuestions }) => {
 
     const deleteClick = (id) => {
         fetch(`http://localhost:8090/questions/${id}`, { method: "DELETE" })
             .then(() => {
                 console.log("Вопрос удалён")
+                setQuestions(questions.filter(question => question.id !==id ))
             })
-         let question = document.getElementById(id)
-             question.parentNode.removeChild(question)
     }
+
+
+    
 
     return (
         <div className="question" id={id}>

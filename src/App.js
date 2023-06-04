@@ -1,10 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Homepage } from "./Pages/Homepage";
-import { FullQuestion } from "./Pages/FullQuestion";
-import { AddQuestion } from "./Pages/AddQuestion";
+import { FullQuestion } from "./Pages/QuestionPage/FullQuestion";
+import { AddQuestion } from "./Pages/QuestionPage/AddQuestion";
 import { SearchForm } from "./Components/SearchForm/SearchForm";
 import { SearchResult } from "./Pages/SearchResult";
 import * as React from "react"
+import { AddAnswerType1 } from "./Components/AnswerVersion/AddAnswer/AddAnswerType1";
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/:id" element={<FullQuestion />} />
           <Route path="/add" element={<AddQuestion />} />
           <Route path="/search-result" element={<SearchResult searchString={searchString}/>} />
+          <Route path="/answer" element={<AddAnswerType1/>}/>
         </Routes>
       </BrowserRouter>
     </>
