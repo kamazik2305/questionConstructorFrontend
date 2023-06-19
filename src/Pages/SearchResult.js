@@ -1,19 +1,20 @@
 import * as React from "react"
 import { Link } from "react-router-dom"
 import { Question } from "../Components/Question/Question"
+import axios from "../axios"
 
 export const SearchResult = ({ searchString }) => {
 
     const [searchQuestions, setSearchQuestions] = React.useState([])
 
     React.useEffect(() => {
-        fetch(`http://localhost:8090/search?searchString=${searchString}`, { method: "GET" })
-            .then(res => res.json())
-            .then((result) => {
-                setSearchQuestions(result);
-            }
-            )
+        loadResult()
     }, [])
+
+    const loadResult = async()=>{
+        const result = await axios.get(`search?searchString=${searchString}`)
+        setSearchQuestions(result.data)
+    }
 
     return (
 
@@ -24,8 +25,6 @@ export const SearchResult = ({ searchString }) => {
                 <Question  key={question.id} id={question.id} questionText={question.questionText}  />
             ))
             }
-            <Link to="/add"> Добавить вопрос </Link>
-
         </div>
 
     )

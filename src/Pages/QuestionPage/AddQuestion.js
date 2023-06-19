@@ -2,6 +2,8 @@ import * as React from "react"
 import { AddAnswerType1 } from "../../Components/AnswerVersion/AddAnswer/AddAnswerType1"
 import { AddAnswerType2 } from "../../Components/AnswerVersion/AddAnswer/AddAnswerType2"
 import { AddAnswerType3 } from "../../Components/AnswerVersion/AddAnswer/AddAnswerType3"
+import axios from "../../axios"
+import { useNavigate } from "react-router-dom"
 
 
 export const AddQuestion = () => {
@@ -12,35 +14,26 @@ export const AddQuestion = () => {
     const [questionTypes, setQuestionTypes] = React.useState([])
     const [answerVersions, setAnswerVersions] = React.useState([])
 
-
-
+    const navigate = useNavigate()
 
     React.useEffect(() => {
-        fetch("http://localhost:8090/question-types", { method: "GET" })
-            .then(res => res.json())
-            .then((result) => {
-                setQuestionTypes(result);
-            }
-            )
+        loadTypes()
     }, [])
 
-    
-
-    const addQuestionClick = (e) => {
-        e.preventDefault()
-        const question = { questionText, idQuestionType, answerVersions }
-        fetch(`http://localhost:8090/questions/add`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(question)
-        }).then(() => {
-            console.log("Вопрос добавлен")
-        })
+    const loadTypes = async () => {
+        const result = await axios.get('/question-types')
+        setQuestionTypes(result.data)
     }
 
-    const renderAnswerTypes = (idType) =>
-    {
-        switch(idType){
+    const addQuestionClick = async (e) => {
+        e.preventDefault()
+        const question = { questionText, idQuestionType, answerVersions }
+        axios.post('/questions/add', question).then(() => {console.log("added") })
+        navigate('/')
+    }
+
+    const renderAnswerTypes = (idType) => {
+        switch (idType) {
             case "": return (
                 <div>Select type first</div>
             )
@@ -56,8 +49,7 @@ export const AddQuestion = () => {
         }
     }
 
-    function alertQuestion()
-    {
+    function alertQuestion() {
         const question = { questionText: questionText, idQuestionType, answerVersions }
         console.log(question)
     }
@@ -73,7 +65,7 @@ export const AddQuestion = () => {
                         <option key={qt.id} value={qt.id}> {qt.typeName} </option>
                     ))}
                 </select>
-                <button type="button" onClick={()=>alertQuestion()}>alert</button>
+                <button type="button" onClick={() => alertQuestion()}>alert</button>
                 {renderAnswerTypes(idQuestionType)}
                 <button type="submit" onClick={(e) => addQuestionClick(e)}>Добавить вопрос</button>
             </form>

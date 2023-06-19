@@ -11,16 +11,10 @@ function App() {
 
   const [searchString, setSearchString] = React.useState('')
 
-  function alertStr()
-  {
-    alert(searchString)
-  }
-
   return (
     <>
       <BrowserRouter>
         <SearchForm searchString={searchString} setSearchString={setSearchString} />
-        <a onClick={alertStr} > al </a>
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/:id" element={<FullQuestion />} />

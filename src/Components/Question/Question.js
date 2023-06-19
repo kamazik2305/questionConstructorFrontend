@@ -1,20 +1,16 @@
 import { Button as p, Col, Container as div, Navbar as nav, Row } from "react-bootstrap"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import "./QuestionStyle.css"
-
+import axios from "../../axios"
 
 export const Question = ({ id, questionText, questions, setQuestions }) => {
 
-    const deleteClick = (id) => {
-        fetch(`http://localhost:8090/questions/${id}`, { method: "DELETE" })
-            .then(() => {
-                console.log("Вопрос удалён")
-                setQuestions(questions.filter(question => question.id !==id ))
-            })
+
+    const deleteClick = async(id) => {
+        axios.delete(`/questions/${id}`)
+        setQuestions(questions.filter(question => question.id !==id ))
     }
 
-
-    
 
     return (
         <div className="question" id={id}>
