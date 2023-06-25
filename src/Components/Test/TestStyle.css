@@ -1,0 +1,15 @@
+.question
+{
+    border-radius: 12px;
+    width: 600px;
+    height: 50px;
+    display: flex;
+    border: 2px solid rgb(0, 0, 0);
+    align-items: center;
+}
+
+.question-btn
+{
+    border: 1px solid rgb(0, 0, 0);
+    width: 100px;
+}

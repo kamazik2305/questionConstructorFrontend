@@ -3,7 +3,7 @@ import { AddAnswerType1 } from "../../Components/AnswerVersion/AddAnswer/AddAnsw
 import { AddAnswerType2 } from "../../Components/AnswerVersion/AddAnswer/AddAnswerType2"
 import { AddAnswerType3 } from "../../Components/AnswerVersion/AddAnswer/AddAnswerType3"
 import axios from "../../axios"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 
 export const AddQuestion = () => {
@@ -13,6 +13,7 @@ export const AddQuestion = () => {
     const [idQuestionType, setIdQuestionType] = React.useState('')
     const [questionTypes, setQuestionTypes] = React.useState([])
     const [answerVersions, setAnswerVersions] = React.useState([])
+    const {id} = useParams()
 
     const navigate = useNavigate()
 
@@ -28,8 +29,8 @@ export const AddQuestion = () => {
     const addQuestionClick = async (e) => {
         e.preventDefault()
         const question = { questionText, idQuestionType, answerVersions }
-        axios.post('/questions/add', question).then(() => {console.log("added") })
-        navigate('/')
+        axios.post(`/questions/${id}/add`, question).then(() => {console.log("added") })
+        navigate(`/${id}`)
     }
 
     const renderAnswerTypes = (idType) => {

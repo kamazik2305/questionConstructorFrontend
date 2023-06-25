@@ -1,7 +1,7 @@
 import axios from "axios"
 import * as React from "react"
 
-export const CheckedQuestion = ({ question }) => {
+export const CheckedQuestion = ({ question, setIsCheck }) => {
 
     function alertQuestion() {
         console.log(question)
@@ -16,6 +16,9 @@ export const CheckedQuestion = ({ question }) => {
         return description
     }
 
+    const rollback = ()=>{
+        setIsCheck(false)
+    }
 
 
     return (
@@ -32,7 +35,7 @@ export const CheckedQuestion = ({ question }) => {
                     <a> {answer.answerText} </a>
                 ))}
                 <p> {readAnswer()} </p>
-
+                <button type="button" onClick={()=>{rollback()} } >rollback</button>
             </div>
 
         </div>
